@@ -1,7 +1,7 @@
 import './App.css'
 import Header from "./components/Header.tsx";
 import Toolbar from "./components/Toolbar.tsx";
-import SettingBar from "./components/SettingBar.tsx";
+import SettingsBar from "./components/SettingsBar.tsx";
 import Canvas from "./components/Canvas.tsx";
 
 function App() {
@@ -10,7 +10,7 @@ function App() {
     <>
         <Header />
         <Toolbar />
-        <SettingBar />
+        <SettingsBar />
         <Canvas />
     </>
   )

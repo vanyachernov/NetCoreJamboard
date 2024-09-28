@@ -1,4 +1,4 @@
-const SettingBar = () => {
+const SettingsBar = () => {
     return (
         <div>
             
@@ -6,4 +6,4 @@ const SettingBar = () => {
     );
 };
 
-export default SettingBar;
+export default SettingsBar;
