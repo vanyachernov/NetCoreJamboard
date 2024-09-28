@@ -2,10 +2,12 @@ import {useState} from "react";
 import {Box, IconButton, HStack, Flex} from '@chakra-ui/react';
 import { FaPencilAlt } from 'react-icons/fa';
 import { RiRectangleFill } from "react-icons/ri";
+import { IoTriangle } from "react-icons/io5";
 import toolState from "../store/toolState.ts";
 import canvasState from "../store/canvasState.ts";
 import Brush from "../tools/Brush.ts";
 import Rect from "../tools/Rect.ts";
+import Triangle from "../tools/Triangle.ts";
 
 const Toolbar = () => {
     const [selectedTool, setSelectedTool] = useState<string>("");
@@ -18,6 +20,11 @@ const Toolbar = () => {
     const handleSelectRect = () => {
         setSelectedTool("rectangle");
         toolState.setTool(new Rect(canvasState.canvas));
+    }
+    
+    const handleSelectTriangle = () => {
+        setSelectedTool("triangle");
+        toolState.setTool(new Triangle(canvasState.canvas));
     }
     
     return (
@@ -51,9 +58,20 @@ const Toolbar = () => {
                             isActive={selectedTool === 'rectangle'}
                         />
                     </HStack>
+
+                    <HStack spacing={4} justify="left">
+                        <IconButton
+                            icon={<IoTriangle />}
+                            bg='green.600'
+                            color='white'
+                            aria-label="Triangle"
+                            _hover={selectedTool !== 'triangle' ? { bg: 'green.500' } : { bg: 'gray.300' }}
+                            onClick={handleSelectTriangle}
+                            isActive={selectedTool === 'triangle'}
+                        />
+                    </HStack>
                 </Flex>
             </Box>
-            
         </Box>
     );
 };
