@@ -1,13 +1,13 @@
 export default class Tool {
-    canvas: any;
-    ctx: any;
-    
-    constructor(canvas) {
+    canvas: HTMLCanvasElement;
+    ctx: CanvasRenderingContext2D;
+
+    constructor(canvas: HTMLCanvasElement) {
         this.canvas = canvas;
-        this.ctx = canvas.getContext('2d');
+        this.ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
         this.destroyEvents();
     }
-    
+
     set fillColor(color: string) {
         this.ctx.fillStyle = color;
     }
@@ -15,7 +15,7 @@ export default class Tool {
     set strokeColor(color: string) {
         this.ctx.strokeStyle = color;
     }
-    
+
     set lineWidth(width: number) {
         this.ctx.lineWidth = width;
     }

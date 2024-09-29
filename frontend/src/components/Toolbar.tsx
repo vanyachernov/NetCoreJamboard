@@ -15,33 +15,49 @@ import Eraser from "../tools/Eraser.ts";
 
 const Toolbar = () => {
     const [selectedTool, setSelectedTool] = useState<string>("pencil");
-    
+
     const handleSelectBrush = () => {
-        setSelectedTool("pencil");
-        toolState.setTool(new Brush(canvasState.canvas));
+        const canvas = canvasState.canvas;
+        if (canvas) {
+            setSelectedTool("pencil");
+            toolState.setTool(new Brush(canvas));
+        }
     }
 
     const handleSelectRect = () => {
-        setSelectedTool("rectangle");
-        toolState.setTool(new Rect(canvasState.canvas));
+        const canvas = canvasState.canvas;
+        if (canvas) {
+            setSelectedTool("rectangle");
+            toolState.setTool(new Rect(canvas));
+        }
     }
-    
+
     const handleSelectTriangle = () => {
-        setSelectedTool("triangle");
-        toolState.setTool(new Triangle(canvasState.canvas));
+        const canvas = canvasState.canvas;
+        if (canvas) {
+            setSelectedTool("triangle");
+            toolState.setTool(new Triangle(canvas));
+        }
     }
 
     const handleSelectCircle = () => {
-        setSelectedTool("circle");
-        toolState.setTool(new Circle(canvasState.canvas));
+        const canvas = canvasState.canvas;
+        if (canvas) {
+            setSelectedTool("circle");
+            toolState.setTool(new Circle(canvas));
+        }
     }
 
     const handleSelectEraser = () => {
-        setSelectedTool("eraser");
-        toolState.setTool(new Eraser(canvasState.canvas));
+        const canvas = canvasState.canvas;
+        if (canvas) {
+            setSelectedTool("eraser");
+            toolState.setTool(new Eraser(canvas));
+        }
     }
-    
-    const handleChangeColor = (e) => {
+
+
+    const handleChangeColor = (e: React.ChangeEvent<HTMLInputElement>) => {
         toolState.setStrokeColor(e.target.value);
         toolState.setFillColor(e.target.value);
     }

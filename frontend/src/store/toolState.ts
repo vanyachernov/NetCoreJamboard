@@ -1,34 +1,31 @@
 import {makeAutoObservable} from "mobx";
+import Tool from "../tools/Tool.ts";
 
-class ToolState
-{
-    tool = null;
-    
+class ToolState {
+    tool: Tool | null = null;
+
     constructor() {
         makeAutoObservable(this);
     }
-    
-    setTool(tool: any) {
+
+    setTool(tool: Tool) {
         this.tool = tool;
     }
 
     setFillColor(color: string) {
-        if (this.tool)
-        {
+        if (this.tool) {
             this.tool.fillColor = color;
         }
     }
 
     setStrokeColor(color: string) {
-        if (this.tool)
-        {
+        if (this.tool) {
             this.tool.strokeColor = color;
         }
     }
 
     setLineWidth(width: number) {
-        if (this.tool)
-        {
+        if (this.tool) {
             this.tool.lineWidth = width;
         }
     }

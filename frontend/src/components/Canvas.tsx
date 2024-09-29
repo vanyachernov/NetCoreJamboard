@@ -6,10 +6,13 @@ import Brush from "../tools/Brush.ts";
 
 const Canvas = observer(() => {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
-    
+
     useEffect(() => {
-        canvasState.setCanvas(canvasRef.current);
-        toolState.setTool(new Brush(canvasRef.current));
+        const canvas = canvasRef.current;
+        if (canvas) {
+            canvasState.setCanvas(canvas);
+            toolState.setTool(new Brush(canvas));
+        }
     }, []);
     
     return (

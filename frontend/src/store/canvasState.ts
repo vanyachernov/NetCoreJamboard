@@ -2,13 +2,13 @@ import {makeAutoObservable} from "mobx";
 
 class CanvasState
 {
-    canvas = null;
+    canvas: HTMLCanvasElement | null = null;
 
     constructor() {
         makeAutoObservable(this);
     }
 
-    setCanvas(canvas) {
+    setCanvas(canvas: HTMLCanvasElement | null) {
         this.canvas = canvas;
     }
 }

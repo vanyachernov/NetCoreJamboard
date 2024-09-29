@@ -4,14 +4,16 @@ export default class Triangle extends Tool {
     private mouseDown: boolean;
     private startX: number;
     private startY: number;
-    private saved: any;
+    private saved: string | undefined;
 
-    constructor(canvas: any) {
+    constructor(canvas: HTMLCanvasElement) {
         super(canvas);
 
         this.listen();
 
         this.mouseDown = false;
+        this.startX = -1;
+        this.startY = -1;
     }
 
     listen() {
@@ -20,30 +22,39 @@ export default class Triangle extends Tool {
         this.canvas.onmousedown = this.mouseDownHandler.bind(this);
     }
 
-    private mouseUpHandler(e: any) {
+    private mouseUpHandler() {
         this.mouseDown = false;
     }
 
-    private mouseDownHandler(e: any) {
+    private mouseDownHandler(e: MouseEvent) {
         this.mouseDown = true;
-        this.ctx.beginPath();
-        this.startX = e.pageX - e.target.offsetLeft;
-        this.startY = e.pageY - e.target.offsetTop;
-        this.saved = this.canvas.toDataURL();
-    }
+        const target = e.target as HTMLElement | null;
 
-    private mouseMoveHandler(e: any) {
-        if (this.mouseDown) {
-            const currentX = e.pageX - e.target.offsetLeft;
-            const currentY = e.pageY - e.target.offsetTop;
-            const width = currentX - this.startX;
-            const height = currentY - this.startY;
-
-            this.draw(this.startX, this.startY, width,  height);
+        if (target) {
+            this.startX = e.pageX - target.offsetLeft;
+            this.startY = e.pageY - target.offsetTop;
+            this.saved = this.canvas.toDataURL();
         }
     }
 
-    private draw(x: number, y: number, w: number,  h: number) {
+    private mouseMoveHandler(e: MouseEvent) {
+        if (this.mouseDown) {
+            const target = e.target as HTMLElement | null;
+
+            if (target) {
+                const currentX = e.pageX - target.offsetLeft;
+                const currentY = e.pageY - target.offsetTop;
+                const width = currentX - this.startX;
+                const height = currentY - this.startY;
+
+                this.draw(this.startX, this.startY, width, height);
+            }
+        }
+    }
+
+    private draw(x: number, y: number, w: number, h: number) {
+        if (!this.saved) return;
+
         const image = new Image();
         image.src = this.saved;
         image.onload = () => {
