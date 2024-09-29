@@ -3,7 +3,7 @@ import toolState from "../store/toolState.ts";
 
 const SettingsBar = () => {
     return (
-        <Box p="4" bg="gray.100" rounded="md" shadow="md">
+        <Box p="4" bg="gray.100" roundedBottom="md" shadow="md">
             <Box w="fit-content">
                 <FormControl>
                     <Flex flexDirection="column" gap={3}>
