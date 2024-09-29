@@ -1,18 +1,20 @@
 import {useState} from "react";
-import {Box, IconButton, HStack, Flex} from '@chakra-ui/react';
+import {Box, IconButton, HStack, Flex, Tooltip, Input, Divider} from '@chakra-ui/react';
 import { FaPencilAlt } from 'react-icons/fa';
 import { RiRectangleFill } from "react-icons/ri";
 import { IoTriangle } from "react-icons/io5";
 import { FaCircle } from "react-icons/fa6";
+import { FaEraser } from "react-icons/fa";
 import toolState from "../store/toolState.ts";
 import canvasState from "../store/canvasState.ts";
 import Brush from "../tools/Brush.ts";
 import Rect from "../tools/Rect.ts";
 import Triangle from "../tools/Triangle.ts";
 import Circle from "../tools/Circle.ts";
+import Eraser from "../tools/Eraser.ts";
 
 const Toolbar = () => {
-    const [selectedTool, setSelectedTool] = useState<string>("");
+    const [selectedTool, setSelectedTool] = useState<string>("pencil");
     
     const handleSelectBrush = () => {
         setSelectedTool("pencil");
@@ -33,6 +35,16 @@ const Toolbar = () => {
         setSelectedTool("circle");
         toolState.setTool(new Circle(canvasState.canvas));
     }
+
+    const handleSelectEraser = () => {
+        setSelectedTool("eraser");
+        toolState.setTool(new Eraser(canvasState.canvas));
+    }
+    
+    const handleChangeColor = (e) => {
+        toolState.setStrokeColor(e.target.value);
+        toolState.setFillColor(e.target.value);
+    }
     
     return (
         <Box
@@ -42,53 +54,86 @@ const Toolbar = () => {
         >
             <Box className="w-100">
                 <Flex gap={3}>
-                    <HStack spacing={4} justify="left">
-                        <IconButton
-                            icon={<FaPencilAlt />}
-                            bg='green.600'
-                            color='white'
-                            aria-label="Pencil"
-                            _hover={selectedTool !== 'pencil' ? { bg: 'green.500' } : { bg: 'gray.300' }}
-                            onClick={handleSelectBrush}
-                            isActive={selectedTool === 'pencil'}
-                        />
-                    </HStack>
+                    <Tooltip label="Резинка">
+                        <HStack spacing={4} justify="left">
+                            <IconButton
+                                icon={<FaEraser />}
+                                bg='green.600'
+                                color='white'
+                                aria-label="Eraser"
+                                _hover={selectedTool !== 'eraser' ? { bg: 'green.500' } : { bg: 'gray.300' }}
+                                onClick={handleSelectEraser}
+                                isActive={selectedTool === 'eraser'}
+                            />
+                        </HStack>
+                    </Tooltip>
 
-                    <HStack spacing={4} justify="left">
-                        <IconButton
-                            icon={<RiRectangleFill />}
-                            bg='green.600'
-                            color='white'
-                            aria-label="Rectangle"
-                            _hover={selectedTool !== 'rectangle' ? { bg: 'green.500' } : { bg: 'gray.300' }}
-                            onClick={handleSelectRect}
-                            isActive={selectedTool === 'rectangle'}
-                        />
-                    </HStack>
+                    <Divider orientation="vertical" bg="gray" height="40px" px={0.2} />
+                    
+                    <Tooltip label="Кисть">
+                        <HStack spacing={4} justify="left">
+                            <IconButton
+                                icon={<FaPencilAlt />}
+                                bg='green.600'
+                                color='white'
+                                aria-label="Pencil"
+                                _hover={selectedTool !== 'pencil' ? { bg: 'green.500' } : { bg: 'gray.300' }}
+                                onClick={handleSelectBrush}
+                                isActive={selectedTool === 'pencil'}
+                            />
+                        </HStack>
+                    </Tooltip>
 
-                    <HStack spacing={4} justify="left">
-                        <IconButton
-                            icon={<IoTriangle />}
-                            bg='green.600'
-                            color='white'
-                            aria-label="Triangle"
-                            _hover={selectedTool !== 'triangle' ? { bg: 'green.500' } : { bg: 'gray.300' }}
-                            onClick={handleSelectTriangle}
-                            isActive={selectedTool === 'triangle'}
-                        />
-                    </HStack>
+                    <Tooltip label="Прямоугольник">
+                        <HStack spacing={4} justify="left">
+                            <IconButton
+                                icon={<RiRectangleFill />}
+                                bg='green.600'
+                                color='white'
+                                aria-label="Rectangle"
+                                _hover={selectedTool !== 'rectangle' ? { bg: 'green.500' } : { bg: 'gray.300' }}
+                                onClick={handleSelectRect}
+                                isActive={selectedTool === 'rectangle'}
+                            />
+                        </HStack>
+                    </Tooltip>
 
-                    <HStack spacing={4} justify="left">
-                        <IconButton
-                            icon={<FaCircle />}
-                            bg='green.600'
-                            color='white'
-                            aria-label="Circle"
-                            _hover={selectedTool !== 'circle' ? { bg: 'green.500' } : { bg: 'gray.300' }}
-                            onClick={handleSelectCircle}
-                            isActive={selectedTool === 'circle'}
-                        />
-                    </HStack>
+                    <Tooltip label="Треугольник">
+                        <HStack spacing={4} justify="left">
+                            <IconButton
+                                icon={<IoTriangle />}
+                                bg='green.600'
+                                color='white'
+                                aria-label="Triangle"
+                                _hover={selectedTool !== 'triangle' ? { bg: 'green.500' } : { bg: 'gray.300' }}
+                                onClick={handleSelectTriangle}
+                                isActive={selectedTool === 'triangle'}
+                            />
+                        </HStack>
+                    </Tooltip>
+
+                    <Tooltip label="Окружность">
+                        <HStack spacing={4} justify="left">
+                            <IconButton
+                                icon={<FaCircle />}
+                                bg='green.600'
+                                color='white'
+                                aria-label="Circle"
+                                _hover={selectedTool !== 'circle' ? { bg: 'green.500' } : { bg: 'gray.300' }}
+                                onClick={handleSelectCircle}
+                                isActive={selectedTool === 'circle'}
+                            />
+                        </HStack>
+                    </Tooltip>
+                    
+                    <Tooltip label="Задать цвет">
+                        <HStack width={100} spacing={4} justify="left">
+                            <Input
+                                aria-label="Color"
+                                type="color"
+                                onChange={(e) => handleChangeColor(e)} />
+                        </HStack>
+                    </Tooltip>
                 </Flex>
             </Box>
         </Box>
