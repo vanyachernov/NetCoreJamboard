@@ -1,15 +1,17 @@
 import {useState} from "react";
-import {Box, IconButton, HStack, Flex, Tooltip, Input} from '@chakra-ui/react';
+import {Box, IconButton, HStack, Flex, Tooltip, Input, Divider} from '@chakra-ui/react';
 import { FaPencilAlt } from 'react-icons/fa';
 import { RiRectangleFill } from "react-icons/ri";
 import { IoTriangle } from "react-icons/io5";
 import { FaCircle } from "react-icons/fa6";
+import { FaEraser } from "react-icons/fa";
 import toolState from "../store/toolState.ts";
 import canvasState from "../store/canvasState.ts";
 import Brush from "../tools/Brush.ts";
 import Rect from "../tools/Rect.ts";
 import Triangle from "../tools/Triangle.ts";
 import Circle from "../tools/Circle.ts";
+import Eraser from "../tools/Eraser.ts";
 
 const Toolbar = () => {
     const [selectedTool, setSelectedTool] = useState<string>("pencil");
@@ -33,6 +35,11 @@ const Toolbar = () => {
         setSelectedTool("circle");
         toolState.setTool(new Circle(canvasState.canvas));
     }
+
+    const handleSelectEraser = () => {
+        setSelectedTool("eraser");
+        toolState.setTool(new Eraser(canvasState.canvas));
+    }
     
     const handleChangeColor = (e) => {
         toolState.setStrokeColor(e.target.value);
@@ -47,6 +54,22 @@ const Toolbar = () => {
         >
             <Box className="w-100">
                 <Flex gap={3}>
+                    <Tooltip label="Резинка">
+                        <HStack spacing={4} justify="left">
+                            <IconButton
+                                icon={<FaEraser />}
+                                bg='green.600'
+                                color='white'
+                                aria-label="Eraser"
+                                _hover={selectedTool !== 'eraser' ? { bg: 'green.500' } : { bg: 'gray.300' }}
+                                onClick={handleSelectEraser}
+                                isActive={selectedTool === 'eraser'}
+                            />
+                        </HStack>
+                    </Tooltip>
+
+                    <Divider orientation="vertical" bg="gray" height="40px" px={0.2} />
+                    
                     <Tooltip label="Кисть">
                         <HStack spacing={4} justify="left">
                             <IconButton
